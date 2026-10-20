@@ -1,0 +1,99 @@
+@page "/book"
+
+<PageTitle>Book a Cart | Milk &amp; Meadow</PageTitle>
+
+<div class="fade-in min-h-[85vh] bg-cream flex items-center justify-center py-20 px-6">
+    <div class="w-full max-w-3xl bg-white p-10 md:p-16 shadow-2xl border border-cream-dark relative">
+
+        @if (submitted)
+        {
+            <div class="text-center py-10">
+                <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Inquiry Sent!</h2>
+                <p class="text-charcoal-lighter font-light text-base max-w-md mx-auto mb-8">
+                    Thanks, @submittedName. We will get back to you shortly.
+                </p>
+                <a href="/" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide inline-block">
+                    Back to Home
+                </a>
+            </div>
+        }
+        else
+        {
+            <div class="text-center mb-12">
+                <p class="text-xs tracking-[0.2em] font-medium text-charcoal-lighter uppercase mb-3">Make a Reservation</p>
+                <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Book Our Cart</h2>
+                <p class="text-charcoal-lighter font-light text-base max-w-md mx-auto">Bring the Milk &amp; Meadow experience to your next private event, wedding, or corporate gathering.</p>
+            </div>
+
+            <EditForm Model="Inquiry" FormName="booking" OnValidSubmit="Submit" class="space-y-6">
+                <DataAnnotationsValidator />
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="first-name">First Name</label>
+                        <InputText id="first-name" @bind-Value="Inquiry!.FirstName" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                        <ValidationMessage For="() => Inquiry!.FirstName" class="text-xs text-red-600 mt-1" />
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="last-name">Last Name</label>
+                        <InputText id="last-name" @bind-Value="Inquiry!.LastName" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                        <ValidationMessage For="() => Inquiry!.LastName" class="text-xs text-red-600 mt-1" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="email">Email Address</label>
+                    <InputText id="email" @bind-Value="Inquiry!.Email" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                    <ValidationMessage For="() => Inquiry!.Email" class="text-xs text-red-600 mt-1" />
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="event-date">Event Date</label>
+                        <InputDate id="event-date" @bind-Value="Inquiry!.EventDate" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                        <ValidationMessage For="() => Inquiry!.EventDate" class="text-xs text-red-600 mt-1" />
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="guests">Estimated Guests</label>
+                        <InputSelect id="guests" @bind-Value="Inquiry!.Guests" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors">
+                            <option value="">Select an option...</option>
+                            <option value="Under 50">Under 50</option>
+                            <option value="50 - 100">50 - 100</option>
+                            <option value="100 - 200">100 - 200</option>
+                            <option value="200+">200+</option>
+                        </InputSelect>
+                        <ValidationMessage For="() => Inquiry!.Guests" class="text-xs text-red-600 mt-1" />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="message">Event Details &amp; Requests</label>
+                    <InputTextArea id="message" @bind-Value="Inquiry!.Message" rows="4" placeholder="Location, time, favorite flavors..." class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                </div>
+
+                <div class="pt-4 text-center">
+                    <button type="submit" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide w-full md:w-auto">
+                        Submit Inquiry &rarr;
+                    </button>
+                </div>
+            </EditForm>
+        }
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private BookingInquiry? Inquiry { get; set; }
+
+    private bool submitted;
+    private string submittedName = "";
+
+    protected override void OnInitialized() => Inquiry ??= new();
+
+    private void Submit()
+    {
+        // No backend yet: just show the confirmation.
+        submittedName = Inquiry!.FirstName;
+        submitted = true;
+    }
+}
