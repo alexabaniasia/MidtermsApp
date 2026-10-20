@@ -7,7 +7,7 @@
     <!-- 1. Hero -->
     <section class="relative min-h-[75vh] flex items-center justify-start">
         <div class="absolute inset-0 z-0 bg-charcoal">
-            <img src="https://images.unsplash.com/photo-1563805042-7684c8e9e533?auto=format&fit=crop&q=80&w=2000" alt="Artisanal Ice Cream" class="w-full h-full object-cover opacity-70" />
+            <img src="https://goodineverygrain.ca/wp-content/uploads/2021/06/Homemade-ice-cream-1024x683.jpg" alt="Artisanal Ice Cream" class="w-full h-full object-cover opacity-70" />
             <div class="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/50 to-transparent"></div>
         </div>
 
@@ -65,7 +65,7 @@
     <section class="bg-cream-dark">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="h-[50vh] lg:h-auto overflow-hidden">
-                <img src="https://images.unsplash.com/photo-1558500904-e591780d603a?auto=format&fit=crop&q=80&w=1600" alt="Parlor Interior" class="w-full h-full object-cover" />
+                <img src="https://cdn.mos.cms.futurecdn.net/ManNov2ntFvFZNwVnbMJ3f.jpg" alt="Parlor Interior" class="w-full h-full object-cover" />
             </div>
 
             <div class="flex items-center justify-center p-12 md:p-24 bg-white">
@@ -124,18 +124,18 @@
         new Flavor
         {
             Id = 1,
-            Name = "Honeycomb Lavender",
-            Description = "Sweet local honeycomb folded into a delicate lavender-infused sweet cream base.",
+            Name = "Vanilla Bean & Dark Chocolate",
+            Description = "Classic vanilla bean ice cream drizzled heavily with rich dark chocolate syrup.",
             Price = 6,
-            ImageUrl = "https://images.unsplash.com/photo-1570197781417-0a8237580532?auto=format&fit=crop&q=80&w=800"
+            ImageUrl = "https://catalystcupcakes.wordpress.com/wp-content/uploads/2011/09/vanilla_icecream.jpg"
         },
         new Flavor
         {
             Id = 2,
-            Name = "Dark Chocolate Truffle",
-            Description = "Rich 70% dark cacao mixed with house-made fudge ribbons and dark chocolate shavings.",
+            Name = "Cookie Monster Crunch",
+            Description = "Bright blue sweet cream mixed with crushed chocolate sandwich cookies and dough chunks.",
             Price = 7,
-            ImageUrl = "https://images.unsplash.com/photo-1559703248-dcaaec9fab78?auto=format&fit=crop&q=80&w=800"
+            ImageUrl = "https://cloudfront.omsphoto.com/wp-content/uploads/2025/03/UDFQuakes_BlueMooCookieMonster_Macro_948.jpg"
         },
         new Flavor
         {
@@ -146,4 +146,13 @@
             ImageUrl = "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&q=80&w=800"
         }
     };
+
+    public class Flavor
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+        public decimal Price { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
+    }
 }
