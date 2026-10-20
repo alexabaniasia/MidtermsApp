@@ -45,32 +45,17 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[4/3]">
-                        <img src="https://images.unsplash.com/photo-1570197781417-0a8237580532?auto=format&fit=crop&q=80&w=800" alt="Honeycomb Lavender" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                @foreach (var flavor in flavors)
+                {
+                    <div class="group cursor-pointer">
+                        <div class="overflow-hidden mb-6 aspect-[4/3]">
+                            <img src="@flavor.ImageUrl" alt="@flavor.Name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                        </div>
+                        <h4 class="font-serif text-2xl text-charcoal mb-2">@flavor.Name</h4>
+                        <p class="text-charcoal-lighter font-light text-sm mb-3">@flavor.Description</p>
+                        <p class="font-medium text-charcoal">$@flavor.Price.ToString("0") <span class="text-xs text-charcoal-lighter font-normal">/ scoop</span></p>
                     </div>
-                    <h4 class="font-serif text-2xl text-charcoal mb-2">Honeycomb Lavender</h4>
-                    <p class="text-charcoal-lighter font-light text-sm mb-3">Sweet local honeycomb folded into a delicate lavender-infused sweet cream base.</p>
-                    <p class="font-medium text-charcoal">$6 <span class="text-xs text-charcoal-lighter font-normal">/ scoop</span></p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[4/3]">
-                        <img src="https://images.unsplash.com/photo-1559703248-dcaaec9fab78?auto=format&fit=crop&q=80&w=800" alt="Dark Chocolate Truffle" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    </div>
-                    <h4 class="font-serif text-2xl text-charcoal mb-2">Dark Chocolate Truffle</h4>
-                    <p class="text-charcoal-lighter font-light text-sm mb-3">Rich 70% dark cacao mixed with house-made fudge ribbons and dark chocolate shavings.</p>
-                    <p class="font-medium text-charcoal">$7 <span class="text-xs text-charcoal-lighter font-normal">/ scoop</span></p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="overflow-hidden mb-6 aspect-[4/3]">
-                        <img src="https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&q=80&w=800" alt="Strawberry Balsamic" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    </div>
-                    <h4 class="font-serif text-2xl text-charcoal mb-2">Strawberry Balsamic</h4>
-                    <p class="text-charcoal-lighter font-light text-sm mb-3">Freshly roasted summer strawberries balanced with an aged balsamic glaze swirl.</p>
-                    <p class="font-medium text-charcoal">$6 <span class="text-xs text-charcoal-lighter font-normal">/ scoop</span></p>
-                </div>
+                }
             </div>
 
         </div>
@@ -132,3 +117,33 @@
     </section>
 
 </div>
+
+@code {
+    private readonly List<Flavor> flavors = new()
+    {
+        new Flavor
+        {
+            Id = 1,
+            Name = "Honeycomb Lavender",
+            Description = "Sweet local honeycomb folded into a delicate lavender-infused sweet cream base.",
+            Price = 6,
+            ImageUrl = "https://images.unsplash.com/photo-1570197781417-0a8237580532?auto=format&fit=crop&q=80&w=800"
+        },
+        new Flavor
+        {
+            Id = 2,
+            Name = "Dark Chocolate Truffle",
+            Description = "Rich 70% dark cacao mixed with house-made fudge ribbons and dark chocolate shavings.",
+            Price = 7,
+            ImageUrl = "https://images.unsplash.com/photo-1559703248-dcaaec9fab78?auto=format&fit=crop&q=80&w=800"
+        },
+        new Flavor
+        {
+            Id = 3,
+            Name = "Strawberry Balsamic",
+            Description = "Freshly roasted summer strawberries balanced with an aged balsamic glaze swirl.",
+            Price = 6,
+            ImageUrl = "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?auto=format&fit=crop&q=80&w=800"
+        }
+    };
+}
