@@ -2,8 +2,14 @@
 
 <PageTitle>Book a Cart | Milk &amp; Meadow</PageTitle>
 
-<div class="fade-in min-h-[85vh] bg-cream flex items-center justify-center py-20 px-6">
-    <div class="w-full max-w-3xl bg-white p-10 md:p-16 shadow-2xl border border-cream-dark relative">
+<div class="fade-in relative min-h-[85vh] flex items-center justify-center py-20 px-6">
+    <!-- Background image -->
+    <div class="absolute inset-0 z-0">
+        <img src="/images/shop.jpg" alt="" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-charcoal/60"></div>
+    </div>
+
+    <div class="relative z-10 w-full max-w-3xl bg-white p-10 md:p-16 shadow-2xl border border-cream-dark">
 
         @if (submitted)
         {
