@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\MidtermsApp.bundle.scp.css",
+      "PackagePath": "staticwebassets\\MidtermsApp.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\L23Y16W06\\Documents\\Midterms\\MidtermsApp\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.MidtermsApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.MidtermsApp.props",
+      "PackagePath": "build\\MidtermsApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.MidtermsApp.props",
+      "PackagePath": "buildMultiTargeting\\MidtermsApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.MidtermsApp.props",
+      "PackagePath": "buildTransitive\\MidtermsApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
