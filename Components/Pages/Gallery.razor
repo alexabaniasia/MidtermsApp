@@ -1,31 +1,79 @@
 @page "/gallery"
+@inject GalleryService GalleryService
 
 <PageTitle>Gallery | Milk &amp; Meadow</PageTitle>
 
 <div class="fade-in min-h-[80vh] bg-white">
-    <div class="max-w-7xl mx-auto px-6 md:px-12 py-20">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20">
+
+        <BackLink Href="/" Label="Back to Home" Class="text-charcoal-lighter hover:text-charcoal mb-10" />
+
         <div class="text-center mb-16">
-            <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Gallery</h2>
-            <p class="text-charcoal-lighter font-light text-lg">A glimpse into our daily churns and happy moments.</p>
+            <h1 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Gallery</h1>
+            <p class="text-charcoal-lighter font-light text-lg">A glimpse into our daily churns and happy moments. Tap a photo to enlarge it.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[250px] md:auto-rows-[300px]">
-            <!-- Large feature image -->
-            <div class="md:col-span-2 md:row-span-2 overflow-hidden bg-cream-dark group">
-                <img src="/images/shop.jpg" alt="Our shop" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div class="overflow-hidden bg-cream-dark group">
-                <img src="/images/IceCreamCones.jpg" alt="Ice cream cones" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div class="overflow-hidden bg-cream-dark group">
-                <img src="/images/strawberry.jpg" alt="Strawberry ice cream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div class="overflow-hidden bg-cream-dark group">
-                <img src="/images/vanilla_icecream.jpg" alt="Vanilla ice cream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
-            <div class="md:col-span-2 overflow-hidden bg-cream-dark group">
-                <img src="/images/BlueMooCookieMonster.jpg" alt="Blue Moo Cookie Monster ice cream" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            </div>
+            @foreach (var image in images)
+            {
+                <button type="button"
+                        data-lightbox
+                        data-src="@image.Src"
+                        data-alt="@image.Alt"
+                        data-caption="@image.Caption"
+                        aria-label="Enlarge: @image.Caption"
+                        class="relative overflow-hidden bg-cream-dark group cursor-zoom-in @TileClass(image.Tile)">
+                    <img src="@image.Src" alt="@image.Alt" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <span class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/80 to-transparent px-4 pt-10 pb-4 text-left text-sm text-white opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity">
+                        @image.Caption
+                    </span>
+                </button>
+            }
+        </div>
+
+        <div class="mt-20 text-center">
+            <p class="text-charcoal-lighter font-light mb-6">Want our cart at your next event?</p>
+            <a href="/book" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide inline-block">Book a Cart</a>
         </div>
     </div>
 </div>
+
+<!-- Lightbox -->
+<dialog id="lightbox" class="p-0 bg-transparent w-full max-w-5xl backdrop:bg-charcoal/90">
+    <div class="relative">
+        <img data-lightbox-image src="" alt="" class="w-full max-h-[80vh] object-contain" />
+
+        <button type="button" data-dialog-close aria-label="Close"
+                class="absolute top-3 right-3 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white text-charcoal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+
+        <button type="button" data-lightbox-prev aria-label="Previous photo"
+                class="absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white text-charcoal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        </button>
+
+        <button type="button" data-lightbox-next aria-label="Next photo"
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center bg-white/90 hover:bg-white text-charcoal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </button>
+
+        <div class="flex justify-between items-center bg-charcoal px-5 py-3 text-sm text-cream">
+            <span data-lightbox-caption></span>
+            <span data-lightbox-count class="text-cream/70"></span>
+        </div>
+    </div>
+</dialog>
+
+@code {
+    private IReadOnlyList<GalleryImage> images = Array.Empty<GalleryImage>();
+
+    protected override void OnInitialized() => images = GalleryService.GetAll();
+
+    private static string TileClass(GalleryTile tile) => tile switch
+    {
+        GalleryTile.Feature => "md:col-span-2 md:row-span-2",
+        GalleryTile.Wide => "md:col-span-2",
+        _ => ""
+    };
+}
