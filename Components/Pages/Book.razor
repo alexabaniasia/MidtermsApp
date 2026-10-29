@@ -1,88 +1,186 @@
 @page "/book"
+@inject BookingService BookingService
+@inject FlavorService FlavorService
 
 <PageTitle>Book a Cart | Milk &amp; Meadow</PageTitle>
 
-<div class="fade-in relative min-h-[85vh] flex items-center justify-center py-20 px-6">
+<div class="fade-in relative min-h-[85vh] py-16 md:py-20 px-6">
+
     <!-- Background image -->
     <div class="absolute inset-0 z-0">
         <img src="/images/shop.jpg" alt="" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-charcoal/60"></div>
+        <div class="absolute inset-0 bg-charcoal/65"></div>
     </div>
 
-    <div class="relative z-10 w-full max-w-3xl bg-white p-10 md:p-16 shadow-2xl border border-cream-dark">
+    <div class="relative z-10 max-w-6xl mx-auto">
 
-        @if (submitted)
+        <BackLink Href="/" Label="Back to Home" Class="text-cream/80 hover:text-white mb-8" />
+
+        @if (confirmation is not null)
         {
-            <div class="text-center py-10">
-                <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Inquiry Sent!</h2>
-                <p class="text-charcoal-lighter font-light text-base max-w-md mx-auto mb-8">
-                    Thanks, @submittedName. We will get back to you shortly.
+            var booking = confirmation.Inquiry;
+
+            <!-- Confirmation -->
+            <div class="max-w-2xl mx-auto bg-white p-10 md:p-14 shadow-2xl border border-cream-dark text-center">
+                <h1 class="font-serif text-4xl md:text-5xl text-charcoal mb-3">Inquiry Sent!</h1>
+                <p class="text-charcoal-lighter font-light mb-8">
+                    Thanks, @booking.FirstName. We'll email you at <span class="font-medium text-charcoal">@booking.Email</span> within one business day to confirm.
                 </p>
-                <a href="/" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide inline-block">
-                    Back to Home
-                </a>
+
+                <dl class="text-left border border-cream-dark divide-y divide-cream-dark text-sm mb-8">
+                    <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Reference</dt><dd class="font-medium text-charcoal">@confirmation.Reference</dd></div>
+                    <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Event</dt><dd class="font-medium text-charcoal text-right">@booking.EventType</dd></div>
+                    <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Date</dt><dd class="font-medium text-charcoal text-right">@booking.EventDate!.Value.ToString("dddd, MMMM d, yyyy") at @booking.StartTime</dd></div>
+                    <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Guests</dt><dd class="font-medium text-charcoal">@booking.GuestCount</dd></div>
+                    <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Venue</dt><dd class="font-medium text-charcoal text-right">@booking.Venue</dd></div>
+                    @if (!string.IsNullOrWhiteSpace(booking.PreferredFlavor))
+                    {
+                        <div class="flex justify-between gap-4 px-5 py-3"><dt class="text-charcoal-lighter">Requested flavor</dt><dd class="font-medium text-charcoal text-right">@booking.PreferredFlavor</dd></div>
+                    }
+                </dl>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="/" class="bg-charcoal text-cream px-8 py-3.5 text-sm font-medium hover:bg-charcoal-light transition-colors">Back to Home</a>
+                    <a href="/gallery" class="border border-charcoal px-8 py-3.5 text-sm font-medium hover:bg-charcoal hover:text-cream transition-colors">View Gallery</a>
+                    <a href="/book" class="border border-charcoal px-8 py-3.5 text-sm font-medium hover:bg-charcoal hover:text-cream transition-colors">Book Another Date</a>
+                </div>
+
+                <p class="mt-8 text-xs text-charcoal-lighter">Need to change something? <a href="mailto:@SiteInfo.Email" class="underline">Email us</a> and quote your reference.</p>
             </div>
         }
         else
         {
-            <div class="text-center mb-12">
-                <p class="text-xs tracking-[0.2em] font-medium text-charcoal-lighter uppercase mb-3">Make a Reservation</p>
-                <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Book Our Cart</h2>
-                <p class="text-charcoal-lighter font-light text-base max-w-md mx-auto">Bring the Milk &amp; Meadow experience to your next private event, wedding, or corporate gathering.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+
+                <!-- Info -->
+                <div class="lg:col-span-2 text-cream">
+                    <p class="text-xs tracking-[0.2em] font-medium text-cream/70 uppercase mb-3">Make a Reservation</p>
+                    <h1 class="font-serif text-4xl md:text-5xl text-white mb-6">Book Our Cart</h1>
+                    <p class="font-light leading-relaxed text-cream/90 mb-8">
+                        Bring the Milk &amp; Meadow experience to your next private event, wedding, or corporate gathering.
+                    </p>
+
+                    <ul class="space-y-3 text-sm text-cream/90">
+                        <li class="flex gap-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Cart and scooper for up to 3 hours</li>
+                        <li class="flex gap-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Three flavors of your choice</li>
+                        <li class="flex gap-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Cups, cones and toppings included</li>
+                        <li class="flex gap-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>For @BookingRules.MinGuests to @BookingRules.MaxGuests guests</li>
+                        <li class="flex gap-3"><svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Book at least @BookingRules.MinDaysAhead days ahead</li>
+                    </ul>
+
+                    <p class="mt-8 text-sm text-cream/80">
+                        Questions? Call <a href="tel:@SiteInfo.PhoneLink" class="underline">@SiteInfo.Phone</a>
+                        or <a href="mailto:@SiteInfo.Email" class="underline">email us</a>.
+                    </p>
+                </div>
+
+                <!-- Form -->
+                <div class="lg:col-span-3 bg-white p-8 md:p-12 shadow-2xl border border-cream-dark">
+
+                    @if (!string.IsNullOrEmpty(formError))
+                    {
+                        <div role="alert" class="mb-6 border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">@formError</div>
+                    }
+
+                    <EditForm Model="Inquiry" FormName="booking" OnValidSubmit="Submit" class="space-y-6">
+                        <DataAnnotationsValidator />
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="first-name">First Name</label>
+                                <InputText id="first-name" @bind-Value="Inquiry!.FirstName" autocomplete="given-name" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.FirstName" class="text-xs text-red-600 mt-1" />
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="last-name">Last Name</label>
+                                <InputText id="last-name" @bind-Value="Inquiry!.LastName" autocomplete="family-name" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.LastName" class="text-xs text-red-600 mt-1" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="email">Email Address</label>
+                                <InputText id="email" type="email" @bind-Value="Inquiry!.Email" autocomplete="email" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.Email" class="text-xs text-red-600 mt-1" />
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="phone">Phone Number</label>
+                                <InputText id="phone" type="tel" @bind-Value="Inquiry!.Phone" autocomplete="tel" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.Phone" class="text-xs text-red-600 mt-1" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="event-type">Event Type</label>
+                                <InputSelect id="event-type" @bind-Value="Inquiry!.EventType" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors">
+                                    <option value="">Select an option...</option>
+                                    @foreach (var type in BookingRules.EventTypes)
+                                    {
+                                        <option value="@type">@type</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="() => Inquiry!.EventType" class="text-xs text-red-600 mt-1" />
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="guests">Estimated Guests</label>
+                                <InputNumber id="guests" @bind-Value="Inquiry!.GuestCount" min="@BookingRules.MinGuests" max="@BookingRules.MaxGuests" placeholder="@($"{BookingRules.MinGuests} - {BookingRules.MaxGuests}")" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.GuestCount" class="text-xs text-red-600 mt-1" />
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="event-date">Event Date</label>
+                                <InputDate id="event-date" @bind-Value="Inquiry!.EventDate" min="@minDate" max="@maxDate" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                                <ValidationMessage For="() => Inquiry!.EventDate" class="text-xs text-red-600 mt-1" />
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="start-time">Start Time</label>
+                                <InputSelect id="start-time" @bind-Value="Inquiry!.StartTime" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors">
+                                    <option value="">Select a time...</option>
+                                    @foreach (var slot in BookingRules.TimeSlots)
+                                    {
+                                        <option value="@slot">@slot</option>
+                                    }
+                                </InputSelect>
+                                <ValidationMessage For="() => Inquiry!.StartTime" class="text-xs text-red-600 mt-1" />
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="venue">Venue / Address</label>
+                            <InputText id="venue" @bind-Value="Inquiry!.Venue" placeholder="Where should we set up?" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                            <ValidationMessage For="() => Inquiry!.Venue" class="text-xs text-red-600 mt-1" />
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="flavor">Favorite Flavor (optional)</label>
+                            <InputSelect id="flavor" @bind-Value="Inquiry!.PreferredFlavor" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors">
+                                <option value="">No preference</option>
+                                @foreach (var name in flavorNames)
+                                {
+                                    <option value="@name">@name</option>
+                                }
+                            </InputSelect>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="message">Event Details &amp; Requests (optional)</label>
+                            <InputTextArea id="message" @bind-Value="Inquiry!.Message" rows="4" placeholder="Dietary needs, setup notes, anything we should know..." class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
+                            <ValidationMessage For="() => Inquiry!.Message" class="text-xs text-red-600 mt-1" />
+                        </div>
+
+                        <div class="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                            <button type="submit" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide w-full sm:w-auto">
+                                Submit Inquiry &rarr;
+                            </button>
+                            <a href="/" class="text-sm font-medium text-charcoal-lighter hover:text-charcoal transition-colors">Cancel</a>
+                        </div>
+                    </EditForm>
+                </div>
             </div>
-
-            <EditForm Model="Inquiry" FormName="booking" OnValidSubmit="Submit" class="space-y-6">
-                <DataAnnotationsValidator />
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="first-name">First Name</label>
-                        <InputText id="first-name" @bind-Value="Inquiry!.FirstName" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
-                        <ValidationMessage For="() => Inquiry!.FirstName" class="text-xs text-red-600 mt-1" />
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="last-name">Last Name</label>
-                        <InputText id="last-name" @bind-Value="Inquiry!.LastName" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
-                        <ValidationMessage For="() => Inquiry!.LastName" class="text-xs text-red-600 mt-1" />
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="email">Email Address</label>
-                    <InputText id="email" @bind-Value="Inquiry!.Email" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
-                    <ValidationMessage For="() => Inquiry!.Email" class="text-xs text-red-600 mt-1" />
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="event-date">Event Date</label>
-                        <InputDate id="event-date" @bind-Value="Inquiry!.EventDate" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
-                        <ValidationMessage For="() => Inquiry!.EventDate" class="text-xs text-red-600 mt-1" />
-                    </div>
-                    <div>
-                        <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="guests">Estimated Guests</label>
-                        <InputSelect id="guests" @bind-Value="Inquiry!.Guests" class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors">
-                            <option value="">Select an option...</option>
-                            <option value="Under 50">Under 50</option>
-                            <option value="50 - 100">50 - 100</option>
-                            <option value="100 - 200">100 - 200</option>
-                            <option value="200+">200+</option>
-                        </InputSelect>
-                        <ValidationMessage For="() => Inquiry!.Guests" class="text-xs text-red-600 mt-1" />
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs uppercase tracking-wider text-charcoal-lighter mb-2" for="message">Event Details &amp; Requests</label>
-                    <InputTextArea id="message" @bind-Value="Inquiry!.Message" rows="4" placeholder="Location, time, favorite flavors..." class="w-full bg-cream border border-cream-dark px-4 py-3 text-charcoal focus:outline-none focus:border-charcoal transition-colors" />
-                </div>
-
-                <div class="pt-4 text-center">
-                    <button type="submit" class="bg-charcoal text-cream px-10 py-4 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-md tracking-wide w-full md:w-auto">
-                        Submit Inquiry &rarr;
-                    </button>
-                </div>
-            </EditForm>
         }
     </div>
 </div>
@@ -91,15 +189,41 @@
     [SupplyParameterFromForm]
     private BookingInquiry? Inquiry { get; set; }
 
-    private bool submitted;
-    private string submittedName = "";
+    [SupplyParameterFromQuery(Name = "flavor")]
+    private string? FlavorQuery { get; set; }
 
-    protected override void OnInitialized() => Inquiry ??= new();
+    private BookingConfirmation? confirmation;
+    private string? formError;
+    private IReadOnlyList<string> flavorNames = Array.Empty<string>();
+    private string minDate = "";
+    private string maxDate = "";
+
+    protected override void OnInitialized()
+    {
+        flavorNames = FlavorService.GetNames();
+        minDate = BookingRules.EarliestDate.ToString("yyyy-MM-dd");
+        maxDate = BookingRules.LatestDate.ToString("yyyy-MM-dd");
+
+        if (Inquiry is null)
+        {
+            Inquiry = new BookingInquiry();
+
+            // Arrived from a flavor card: pre-select that flavor
+            if (!string.IsNullOrWhiteSpace(FlavorQuery) && flavorNames.Contains(FlavorQuery))
+                Inquiry.PreferredFlavor = FlavorQuery;
+        }
+    }
 
     private void Submit()
     {
-        // No backend yet: just show the confirmation.
-        submittedName = Inquiry!.FirstName;
-        submitted = true;
+        formError = null;
+
+        if (!BookingService.IsDateAvailable(Inquiry!.EventDate!.Value))
+        {
+            formError = "Our cart is already booked on that date. Please choose another day.";
+            return;
+        }
+
+        confirmation = BookingService.Submit(Inquiry);
     }
 }
