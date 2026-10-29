@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject FlavorService FlavorService
 
 <PageTitle>Milk &amp; Meadow | Premium Artisanal Ice Cream</PageTitle>
 
@@ -13,56 +14,62 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full text-cream py-24">
             <div class="max-w-2xl">
-                <p class="text-xs md:text-sm tracking-[0.2em] font-medium mb-4 uppercase text-cream/80">Good Food, Better Company</p>
+                <p class="text-xs md:text-sm tracking-[0.2em] font-medium mb-4 uppercase text-cream/80">Handcrafted Ice Cream</p>
                 <h1 class="font-serif text-5xl md:text-7xl mb-6 leading-tight text-white">A Fresh Take <br />on Local Flavors</h1>
                 <p class="text-cream/90 text-lg mb-10 leading-relaxed font-light max-w-lg">
                     At Milk &amp; Meadow, we serve thoughtfully crafted scoops made from the finest local dairy. Whether it's a sunny afternoon or a sweet night out, our parlor brings people together around great ice cream.
                 </p>
-                <a href="/gallery" class="bg-cream text-charcoal px-8 py-4 text-sm font-medium hover:bg-white transition-colors inline-flex items-center group shadow-lg tracking-wide">
-                    View Gallery
-                    <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="/gallery" class="bg-cream text-charcoal px-8 py-4 text-sm font-medium hover:bg-white transition-colors inline-flex items-center justify-center group shadow-lg tracking-wide">
+                        View Gallery
+                        <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                    <a href="/book" class="border border-cream/60 text-cream px-8 py-4 text-sm font-medium hover:bg-cream hover:text-charcoal transition-colors inline-flex items-center justify-center tracking-wide">
+                        Book a Cart
+                    </a>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- 2. Flavors -->
-    <section class="bg-white py-24">
+    <section id="flavors" class="bg-white py-24">
         <div class="max-w-7xl mx-auto px-6 md:px-12">
 
-            <div class="mb-12 md:mb-16 md:flex md:justify-between md:items-end">
-                <div class="max-w-2xl">
-                    <h3 class="text-xs tracking-[0.2em] font-bold mb-3 uppercase text-charcoal-lighter">Menu Highlights</h3>
-                    <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Signature Flavors</h2>
-                    <p class="text-charcoal-lighter font-light text-lg">From classic vanilla bean to seasonal fruit infusions, our menu is a celebration of bold, simple ingredients.</p>
-                </div>
-                <div class="mt-6 md:mt-0">
-                    <a href="#" class="inline-flex items-center text-sm font-medium text-charcoal hover:text-charcoal-lighter transition-colors border-b border-charcoal pb-1">
-                        Explore Full Menu
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
-                </div>
+            <div class="mb-12 md:mb-16 max-w-2xl">
+                <h3 class="text-xs tracking-[0.2em] font-bold mb-3 uppercase text-charcoal-lighter">Menu Highlights</h3>
+                <h2 class="font-serif text-4xl md:text-5xl text-charcoal mb-4">Signature Flavors</h2>
+                <p class="text-charcoal-lighter font-light text-lg">From classic vanilla bean to seasonal fruit infusions, our menu is a celebration of bold, simple ingredients.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                @foreach (var flavor in flavors)
+                @foreach (var flavor in featured)
                 {
-                    <div class="group cursor-pointer">
-                        <div class="overflow-hidden mb-6 aspect-[4/3]">
-                            <img src="@flavor.ImageUrl" alt="@flavor.Name" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                        </div>
-                        <h4 class="font-serif text-2xl text-charcoal mb-2">@flavor.Name</h4>
-                        <p class="text-charcoal-lighter font-light text-sm mb-3">@flavor.Description</p>
-                        <p class="font-medium text-charcoal">$@flavor.Price.ToString("0") <span class="text-xs text-charcoal-lighter font-normal">/ scoop</span></p>
-                    </div>
+                    <FlavorCard Flavor="flavor" />
                 }
             </div>
+
+            <details class="group mt-16 border-t border-cream-dark pt-10">
+                <summary class="flex w-max mx-auto items-center cursor-pointer border border-charcoal px-8 py-3.5 text-sm font-medium text-charcoal hover:bg-charcoal hover:text-cream transition-colors">
+                    <span class="group-open:hidden">Explore Full Menu</span>
+                    <span class="hidden group-open:inline">Hide Full Menu</span>
+                    <svg class="w-4 h-4 ml-3 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+
+                <div class="pt-14">
+                    <FlavorMenu Groups="menu" />
+                    <p class="mt-14 text-center text-sm text-charcoal-lighter font-light">
+                        Flavors rotate with the seasons. Planning an event?
+                        <a href="/book" class="font-medium text-charcoal border-b border-charcoal pb-0.5 hover:text-charcoal-lighter">Book our cart</a>.
+                    </p>
+                </div>
+            </details>
 
         </div>
     </section>
 
-    <!-- 3. About -->
-    <section class="bg-cream-dark">
+    <!-- 3. Story -->
+    <section id="story" class="bg-cream-dark">
         <div class="grid grid-cols-1 lg:grid-cols-2">
             <div class="h-[50vh] lg:h-auto overflow-hidden">
                 <img src="/images/shop.jpg" alt="Inside the Milk &amp; Meadow shop" class="w-full h-full object-cover" />
@@ -80,10 +87,18 @@
                         We're a neighborhood parlor, built on farm-fresh dairy, seasonal menus, and a passion for bringing people together over a shared love of sweets.
                     </p>
 
-                    <a href="#" class="inline-flex items-center text-sm font-medium text-charcoal hover:text-charcoal-lighter transition-colors border-b border-charcoal pb-1">
-                        Read Our Full Story
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </a>
+                    <details class="group">
+                        <summary class="inline-flex items-center cursor-pointer text-sm font-medium text-charcoal hover:text-charcoal-lighter transition-colors border-b border-charcoal pb-1">
+                            <span class="group-open:hidden">Read Our Full Story</span>
+                            <span class="hidden group-open:inline">Show Less</span>
+                            <svg class="w-4 h-4 ml-2 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </summary>
+                        <div class="mt-6 space-y-4 text-charcoal-lighter font-light text-base leading-relaxed">
+                            <p>Every batch starts at dawn with milk from pasture-raised cows on neighboring family farms. We pasteurize, churn and fold in each ingredient by hand, in small batches, so nothing sits around.</p>
+                            <p>Our menu follows the seasons. When strawberries are at their best, you'll find them in a scoop. When they're gone, we move on to the next thing worth waiting for.</p>
+                            <p>Can't make it to the parlor? Our ice cream cart brings the same scoops to weddings, birthdays and company gatherings.</p>
+                        </div>
+                    </details>
                 </div>
             </div>
         </div>
@@ -95,13 +110,13 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-cream-dark">
 
                 <div class="flex flex-col items-center pt-8 md:pt-0 px-6">
-                    <svg class="w-10 h-10 mb-6 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+                    <svg class="w-10 h-10 mb-6 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>
                     <h3 class="text-xs tracking-[0.2em] font-bold mb-3 uppercase text-charcoal">Fresh Ingredients</h3>
                     <p class="text-sm text-charcoal-lighter font-light">Locally sourced, seasonally inspired.</p>
                 </div>
 
                 <div class="flex flex-col items-center pt-8 md:pt-0 px-6">
-                    <svg class="w-10 h-10 mb-6 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg>
+                    <svg class="w-10 h-10 mb-6 text-charcoal" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>
                     <h3 class="text-xs tracking-[0.2em] font-bold mb-3 uppercase text-charcoal">Crafted With Care</h3>
                     <p class="text-sm text-charcoal-lighter font-light">Every batch is made from scratch.</p>
                 </div>
@@ -116,34 +131,27 @@
         </div>
     </section>
 
+    <!-- 5. Call to action -->
+    <section class="bg-charcoal text-cream">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 py-20 text-center">
+            <h2 class="font-serif text-4xl md:text-5xl mb-4">Planning an event?</h2>
+            <p class="text-cream/80 font-light text-lg max-w-xl mx-auto mb-10">Our ice cream cart serves weddings, birthdays and company gatherings. Tell us the date and we'll take care of the rest.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="/book" class="bg-cream text-charcoal px-8 py-4 text-sm font-medium hover:bg-white transition-colors tracking-wide">Book a Cart</a>
+                <a href="/gallery" class="border border-cream/60 px-8 py-4 text-sm font-medium hover:bg-cream hover:text-charcoal transition-colors tracking-wide">See Our Gallery</a>
+            </div>
+        </div>
+    </section>
+
 </div>
 
 @code {
-    private readonly List<Flavor> flavors = new()
+    private IReadOnlyList<Flavor> featured = Array.Empty<Flavor>();
+    private IReadOnlyList<IGrouping<string, Flavor>> menu = Array.Empty<IGrouping<string, Flavor>>();
+
+    protected override void OnInitialized()
     {
-        new Flavor
-        {
-            Id = 1,
-            Name = "Blue Moo Cookie Monster",
-            Description = "Bright blue vanilla cream packed with chocolate cookie chunks and a cookie crumble swirl.",
-            Price = 7,
-            ImageUrl = "/images/BlueMooCookieMonster.jpg"
-        },
-        new Flavor
-        {
-            Id = 2,
-            Name = "Fresh Strawberry",
-            Description = "Ripe summer strawberries churned into a smooth, naturally sweet cream base.",
-            Price = 6,
-            ImageUrl = "/images/strawberry.jpg"
-        },
-        new Flavor
-        {
-            Id = 3,
-            Name = "Vanilla Bean",
-            Description = "Classic vanilla bean ice cream made from local dairy. Simple, creamy and timeless.",
-            Price = 5,
-            ImageUrl = "/images/vanilla_icecream.jpg"
-        }
-    };
+        featured = FlavorService.GetFeatured();
+        menu = FlavorService.GetMenuByCategory();
+    }
 }
