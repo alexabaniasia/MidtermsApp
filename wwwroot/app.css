@@ -3,6 +3,25 @@
     color: #faf8f5;
 }
 
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+}
+
+:focus-visible {
+    outline: 2px solid #1a1a1a;
+    outline-offset: 2px;
+}
+
+/* Hide the default <details> arrow; we draw our own */
+summary {
+    list-style: none;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
 /* Page fade-in */
 .fade-in {
     animation: fadeIn 0.5s ease-out forwards;
@@ -17,4 +36,9 @@
 .nav-link.active {
     border-bottom-color: #1a1a1a;
     color: #1a1a1a;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .fade-in { animation: none; }
 }

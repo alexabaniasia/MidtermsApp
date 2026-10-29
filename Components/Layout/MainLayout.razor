@@ -3,38 +3,38 @@
 <div class="flex flex-col min-h-screen bg-cream text-charcoal font-sans antialiased">
 
     <!-- Top Navbar -->
-    <nav class="bg-cream/95 backdrop-blur-md sticky top-0 z-50 border-b border-cream-dark">
+    <nav class="bg-cream/95 backdrop-blur-md sticky top-0 z-40 border-b border-cream-dark">
         <input type="checkbox" id="menu-toggle" class="peer hidden" />
 
         <div class="w-full px-6 md:px-12 lg:px-16 py-5 flex justify-between items-center">
 
-            <!-- Logo -->
             <a href="/" class="flex flex-col items-start">
                 <span class="font-serif text-xl md:text-2xl tracking-[0.15em] font-bold text-charcoal uppercase">Milk &amp; Meadow</span>
                 <span class="text-[0.60rem] md:text-[0.65rem] tracking-[0.25em] text-charcoal-lighter uppercase mt-1 font-medium">Small Batch • Local Dairy</span>
             </a>
 
-            <!-- Desktop links -->
             <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-charcoal-lighter">
                 <NavLink href="/" Match="NavLinkMatch.All" ActiveClass="active" class="nav-link hover:text-charcoal transition-colors border-b-2 border-transparent hover:border-charcoal pb-1">Home</NavLink>
+                <a href="/#flavors" class="nav-link hover:text-charcoal transition-colors border-b-2 border-transparent hover:border-charcoal pb-1">Flavors</a>
+                <a href="/#story" class="nav-link hover:text-charcoal transition-colors border-b-2 border-transparent hover:border-charcoal pb-1">Our Story</a>
                 <NavLink href="/gallery" ActiveClass="active" class="nav-link hover:text-charcoal transition-colors border-b-2 border-transparent hover:border-charcoal pb-1">Gallery</NavLink>
 
-                <a href="/book" class="bg-charcoal text-cream px-7 py-3 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-sm tracking-wide ml-4">
+                <NavLink href="/book" ActiveClass="bg-charcoal-light" class="bg-charcoal text-cream px-7 py-3 text-sm font-medium hover:bg-charcoal-light transition-colors shadow-sm tracking-wide ml-4">
                     Book a Cart
-                </a>
+                </NavLink>
             </div>
 
-            <!-- Mobile menu button -->
             <label for="menu-toggle" class="md:hidden text-charcoal cursor-pointer" aria-label="Toggle menu">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </label>
         </div>
 
-        <!-- Mobile menu panel -->
-        <div class="hidden peer-checked:flex md:hidden flex-col space-y-4 px-6 pt-4 pb-6 border-t border-cream-dark text-sm font-medium text-charcoal-lighter">
-            <a href="/" onclick="document.getElementById('menu-toggle').checked=false">Home</a>
-            <a href="/gallery" onclick="document.getElementById('menu-toggle').checked=false">Gallery</a>
-            <a href="/book" onclick="document.getElementById('menu-toggle').checked=false">Book a Cart</a>
+        <div id="mobile-menu" class="hidden peer-checked:flex md:hidden flex-col space-y-4 px-6 pt-4 pb-6 border-t border-cream-dark text-sm font-medium text-charcoal-lighter">
+            <a href="/">Home</a>
+            <a href="/#flavors">Flavors</a>
+            <a href="/#story">Our Story</a>
+            <a href="/gallery">Gallery</a>
+            <a href="/book" class="bg-charcoal text-cream px-6 py-3 text-center">Book a Cart</a>
         </div>
     </nav>
 
@@ -43,30 +43,63 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-cream-dark py-12 mt-auto">
-        <div class="w-full px-6 md:px-12 lg:px-16 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+    <footer class="bg-white border-t border-cream-dark pt-16 pb-8">
+        <div class="w-full px-6 md:px-12 lg:px-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
-            <div class="flex flex-col items-center md:items-start">
-                <span class="font-serif text-lg tracking-[0.15em] font-bold text-charcoal uppercase">Milk &amp; Meadow</span>
-                <span class="text-[0.6rem] tracking-[0.2em] text-charcoal-lighter uppercase mt-1">Kitchen • Cart • Good Times</span>
+                <div>
+                    <a href="/" class="flex flex-col items-start">
+                        <span class="font-serif text-lg tracking-[0.15em] font-bold text-charcoal uppercase">Milk &amp; Meadow</span>
+                        <span class="text-[0.6rem] tracking-[0.2em] text-charcoal-lighter uppercase mt-1">Parlor • Cart • Good Times</span>
+                    </a>
+                    <p class="mt-4 text-sm text-charcoal-lighter font-light max-w-xs">Small-batch ice cream made from local dairy, scooped in our parlor and served from our cart.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xs tracking-[0.2em] font-bold mb-4 uppercase text-charcoal">Visit</h3>
+                    <ul class="space-y-2 text-sm text-charcoal-lighter font-light">
+                        <li><a href="@SiteInfo.MapUrl" target="_blank" rel="noopener noreferrer" class="hover:text-charcoal transition-colors">@SiteInfo.Address</a></li>
+                        <li>@SiteInfo.Hours</li>
+                        <li><a href="tel:@SiteInfo.PhoneLink" class="hover:text-charcoal transition-colors">@SiteInfo.Phone</a></li>
+                        <li><a href="mailto:@SiteInfo.Email" class="hover:text-charcoal transition-colors">@SiteInfo.Email</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xs tracking-[0.2em] font-bold mb-4 uppercase text-charcoal">Explore</h3>
+                    <ul class="space-y-2 text-sm text-charcoal-lighter font-light">
+                        <li><a href="/" class="hover:text-charcoal transition-colors">Home</a></li>
+                        <li><a href="/#flavors" class="hover:text-charcoal transition-colors">Flavors</a></li>
+                        <li><a href="/#story" class="hover:text-charcoal transition-colors">Our Story</a></li>
+                        <li><a href="/gallery" class="hover:text-charcoal transition-colors">Gallery</a></li>
+                        <li><a href="/book" class="hover:text-charcoal transition-colors">Book a Cart</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xs tracking-[0.2em] font-bold mb-4 uppercase text-charcoal">Follow</h3>
+                    <div class="flex items-center space-x-5 text-charcoal-lighter">
+                        <a href="@SiteInfo.TwitterUrl" target="_blank" rel="noopener noreferrer" class="hover:text-charcoal transition-colors" aria-label="Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                        </a>
+                        <a href="@SiteInfo.InstagramUrl" target="_blank" rel="noopener noreferrer" class="hover:text-charcoal transition-colors" aria-label="Instagram">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="flex items-center space-x-6 text-xs uppercase tracking-wider text-charcoal-lighter font-medium">
-                <a href="/" class="hover:text-charcoal transition-colors">Home</a>
-                <a href="/gallery" class="hover:text-charcoal transition-colors">Gallery</a>
-                <a href="/book" class="hover:text-charcoal transition-colors">Book a Cart</a>
-            </div>
-
-            <div class="flex items-center space-x-5 text-charcoal-lighter">
-                <a href="#" class="hover:text-charcoal transition-colors" aria-label="Twitter">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                </a>
-                <a href="#" class="hover:text-charcoal transition-colors" aria-label="Instagram">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
+            <div class="mt-12 pt-6 border-t border-cream-dark text-xs text-charcoal-lighter font-light text-center md:text-left">
+                &copy; @DateTime.Now.Year Milk &amp; Meadow. All rights reserved.
             </div>
         </div>
     </footer>
+
+    <!-- Back to top -->
+    <button type="button" id="back-to-top" data-scroll-top aria-label="Back to top"
+            class="hidden fixed bottom-6 right-6 z-30 w-11 h-11 items-center justify-center bg-charcoal text-cream shadow-lg hover:bg-charcoal-light transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+    </button>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
